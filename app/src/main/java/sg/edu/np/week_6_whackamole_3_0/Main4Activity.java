@@ -250,6 +250,8 @@ public class Main4Activity extends AppCompatActivity {
 
     private void updateUserScore()
     {
+        readyTimer.cancel();
+        newMolePlaceTimer.cancel();
         int score = Integer.parseInt(advancedScore.getText().toString());
         if(score > highScore){
             ArrayList<Integer> scoreList = userData.getScores();
@@ -258,6 +260,7 @@ public class Main4Activity extends AppCompatActivity {
         }
         saveScore(userData);
         Log.v(TAG, FILENAME + ": Update User Score...");
+        adapter.notifyDataSetChanged();
     }
 
     @Override
