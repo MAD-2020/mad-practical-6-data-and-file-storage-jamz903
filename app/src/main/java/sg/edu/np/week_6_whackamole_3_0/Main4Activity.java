@@ -257,8 +257,8 @@ public class Main4Activity extends AppCompatActivity {
             ArrayList<Integer> scoreList = userData.getScores();
             scoreList.set(levelSelected - 1, score);
             userData.setScores(scoreList);
+            handler.updateScore(username, levelSelected,score);
         }
-        saveScore(userData);
         Log.v(TAG, FILENAME + ": Update User Score...");
         adapter.notifyDataSetChanged();
     }
@@ -269,9 +269,5 @@ public class Main4Activity extends AppCompatActivity {
         updateUserScore();
         Intent intent = new Intent(Main4Activity.this, Main3Activity.class);
         startActivity(intent);
-    }
-
-    public void saveScore(UserData user){
-        handler.addUser(user);
     }
 }
