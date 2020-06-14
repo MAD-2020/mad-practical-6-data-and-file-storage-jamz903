@@ -27,6 +27,11 @@ public class Main3Activity extends AppCompatActivity {
      */
     private static final String FILENAME = "Main3Activity.java";
     private static final String TAG = "Whack-A-Mole3.0!";
+    MyDBHandler handler;
+    Button backLogin;
+    CustomScoreAdaptor adapter;
+    String username;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +43,37 @@ public class Main3Activity extends AppCompatActivity {
 
         Log.v(TAG, FILENAME + ": Show level for User: "+ userName);
          */
+        handler = new MyDBHandler(this,"WhackAMoleDB.db", null,1);
+        backLogin = (Button) findViewById(R.id.backLogin);
+        Intent intent = getIntent();
+        username = intent.getStringExtra("Username");
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        UserData userData = handler.findUser(username);
+        adapter = new CustomScoreAdaptor(userData, Main3Activity.this);
+        recyclerView.setAdapter(adapter);
+
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layout);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        backLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main3Activity.this, Main4Activity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
     }
 }
